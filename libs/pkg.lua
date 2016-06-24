@@ -59,6 +59,9 @@ local function evalModule(data, name)
 
   local meta = success and type(ret) == "table" and ret or module.exports
   if not meta then return nil, "Missing exports in " .. name end
+  for k,v in pairs(meta) do
+    print("  - " .. tostring(k) .. ": " .. tostring(v))
+  end
   if not meta.name then return nil, "Missing name in package description in " .. name end
   if not meta.version then return nil, "Missing version in package description in " .. name end
   return meta
