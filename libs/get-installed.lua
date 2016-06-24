@@ -22,19 +22,28 @@ local pkgQuery = require('pkg').query
 return function (fs, rootPath)
   local deps = {}
   local function check(dir)
+    print("checking " .. dir)
     local iter = fs.scandir(dir)
-    if not iter then return end
+    if not iter then 
+      print("failed to get iter for " .. dir)
+      return
+    end
     for entry in iter do
+      print("- iterating " .. tostring(entry.name))
       local baseName
       if entry.type == "file" then
         baseName = entry.name:match("^(.*)%.lua$")
       elseif entry.type == "directory" then
         baseName = entry.name
       end
+      print(" - basename " .. tostring(baseName))
       if baseName then
         local path, meta
         path = pathJoin(dir, entry.name)
+        print(" - joinedPath " .. tostring(path))
         meta, path = pkgQuery(fs, path)
+        print(" - meta " .. tostring(meta))
+        print(" - pkgPath " .. tostring(path))
         if meta then
           meta.fs = fs
           meta.path = path

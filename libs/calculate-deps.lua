@@ -99,6 +99,7 @@ return function (db, deps, newDeps)
   for i = 1, #names do
     local name = names[i]
     local meta = deps[name]
+    assert(meta.path)
     log("including dependency", string.format("%s (%s)",
       colorize("highlight", name), meta.path or meta.version))
   end
