@@ -116,9 +116,10 @@ local function query(fs, path)
     if err then message = message .. "\n" .. err end
     return data, message
   end
-  local meta = evalModule(data, packagePath)
+  print(" - " .. tostring(#data))
+  local meta, err = evalModule(data, packagePath)
   local clean = {}
-  if not meta then return nil, "No meta found" end
+  if not meta then return nil, "No meta found: " .. tostring(err) end
   for key, value in pairs(meta) do
     if type(value) == validKeys[key] then
       clean[key] = value
